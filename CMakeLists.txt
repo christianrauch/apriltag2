@@ -9,7 +9,7 @@ aux_source_directory(common COMMON_SRC)
 aux_source_directory(. APRILTAG_SRCS)
 
 # Library
-add_library(apriltag ${APRILTAG_SRCS} ${COMMON_SRC})
+add_library(apriltag SHARED ${APRILTAG_SRCS} ${COMMON_SRC})
 target_link_libraries(apriltag Threads::Threads m)
 
 # Examples
