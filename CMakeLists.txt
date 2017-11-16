@@ -23,7 +23,6 @@ if(OpenCV_FOUND)
     target_link_libraries(opencv_demo apriltag ${OpenCV_LIBRARIES})
 endif(OpenCV_FOUND)
 
-
 # install library and headers
 install(TARGETS apriltag
     ARCHIVE DESTINATION lib
@@ -31,9 +30,13 @@ install(TARGETS apriltag
     RUNTIME DESTINATION bin
 )
 
-install(DIRECTORY . DESTINATION ${CMAKE_INSTALL_PREFIX}/include/ FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY .
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/
+        FILES_MATCHING PATTERN "*.h"
+        PATTERN ".git" EXCLUDE
+        PATTERN "example" EXCLUDE)
 
 FILE(READ apriltag.pc.in PKGC)
 STRING(REGEX REPLACE "^prefix=" "prefix=${CMAKE_INSTALL_PREFIX}" PKGC_CONF "${PKGC}" )
 FILE(WRITE ${PROJECT_BINARY_DIR}/apriltag.pc ${PKGC_CONF})
-install(FILES "${PROJECT_BINARY_DIR}/apriltag.pc" DESTINATION "lib/pkgconfig/" COMPONENT dev)
+install(FILES "${PROJECT_BINARY_DIR}/apriltag.pc" DESTINATION "lib/pkgconfig/")
