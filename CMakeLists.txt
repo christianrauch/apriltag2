@@ -21,10 +21,11 @@ target_link_libraries(apriltag_demo apriltag)
 if(OpenCV_FOUND)
     add_executable(opencv_demo example/opencv_demo.cc)
     target_link_libraries(opencv_demo apriltag ${OpenCV_LIBRARIES})
+    install(TARGETS opencv_demo RUNTIME DESTINATION bin)
 endif(OpenCV_FOUND)
 
 # install library and headers
-install(TARGETS apriltag
+install(TARGETS apriltag apriltag_demo
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
