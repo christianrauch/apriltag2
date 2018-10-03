@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project(apriltag)
 
 find_package(Threads REQUIRED)
-find_package(OpenCV)
+find_package(OpenCV QUIET)
 
 include_directories(.)
 aux_source_directory(common COMMON_SRC)
