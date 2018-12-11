@@ -11,6 +11,7 @@ aux_source_directory(. APRILTAG_SRCS)
 # Library
 add_library(apriltag SHARED ${APRILTAG_SRCS} ${COMMON_SRC})
 target_link_libraries(apriltag Threads::Threads m)
+file(GLOB_RECURSE HEADER_FILES RELATIVE ${CMAKE_SOURCE_DIR} *.h)
 
 # Examples
 # apriltag_demo
@@ -24,18 +25,18 @@ if(OpenCV_FOUND)
     install(TARGETS opencv_demo RUNTIME DESTINATION bin)
 endif(OpenCV_FOUND)
 
-# install library and headers
+# install library and example programs
 install(TARGETS apriltag apriltag_demo
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
 )
 
-install(DIRECTORY .
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/
-        FILES_MATCHING PATTERN "*.h"
-        PATTERN ".git" EXCLUDE
-        PATTERN "example" EXCLUDE)
+# install headers
+foreach(HEADER ${HEADER_FILES})
+    string(REGEX MATCH "(.*)[/\\]" DIR ${HEADER})
+    install(FILES ${HEADER} DESTINATION include/${PROJECT_NAME}/${DIR})
+endforeach()
 
 FILE(READ apriltag.pc.in PKGC)
 STRING(REGEX REPLACE "^prefix=" "prefix=${CMAKE_INSTALL_PREFIX}" PKGC_CONF "${PKGC}" )
